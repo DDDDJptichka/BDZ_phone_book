@@ -4,11 +4,13 @@
 #include <locale.h>
 #include <windows.h>
 #include "copy.h"
-#include "delete_person.h"
 #include "add_new_person.h"
-#include "convert_file_to_matrix.h"
+#include "make_list.h"
 #include "make_tree.h"
 #include "select_tree_sort.h"
+
+extern char input_file_name[];
+extern char output_file_name[];
 
 int main(){
 
@@ -17,7 +19,7 @@ int main(){
     setlocale(LC_ALL, "Russian");
     
     int row_num;
-    user_t *users;
+    node_t **users;
     leaf_t **root;
     
     initialize_in_out_files();

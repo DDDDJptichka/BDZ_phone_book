@@ -4,4 +4,4 @@
 #include "make_tree.h"
 #include "search.h"
 
-int select_tree_sort (leaf_t** root);
+int select_tree_sort(leaf_t** root);

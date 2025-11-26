@@ -1,17 +1,18 @@
 CC = gcc
 
-CFLAGS = -Wall -Wextra -std=c99 -g -02 -Iincludes
+CFLAGS = -Wall -Wextra -std=c99 -g -O2 -Iincludes
 
 TARGET = a.exe
 SRC_DIRS = command_files d_linked_list file_functions tree_functions
 INCLUDE_DIR = includes
 
-FUNCTIONS = main.c \ $(wildcard command_files/*.c)
-					\ $(wildcard d_linked_list/*.c)
-					 \ $(wildcard file_functions/*.c)
-					  \ $(wildcard tree_functions/*.c)
+FUNCTIONS = main.c \
+	$(wildcard command_files/*.c) \
+	$(wildcard d_linked_list/*.c) \
+	$(wildcard file_functions/*.c) \
+	$(wildcard tree_functions/*.c)
 
-OBJECTS = $(FUNCTIONS:.c = .o)
+OBJECTS = $(FUNCTIONS:.c=.o)
 
 
 .PHONY: clean rebuild run info
@@ -21,7 +22,7 @@ $(TARGET): $(OBJECTS)
 	$(CC) $(OBJECTS) -o $(TARGET)
 	@echo "РЎР±РѕСЂРєР° $(TARGET) Р·Р°РІРµСЂС€РµРЅР°"
 
-main.o main.c
+main.o: main.c
 	$(CC) $(CFLAGS) -c main.c -o main.o
 
 command_files/%.o: command_files/%.c includes/%.h
@@ -42,15 +43,15 @@ run: $(TARGET)
 
 clean: 
 	rm -f $(OBJECTS) &(TARGET) a.exe main.o
-	@echo "РћС‡РёСЃС‚РєР° Р·Р°РІРµСЂС€РµРЅР°"
+	@echo "Очистка завершена"
 
 rebuild:
 	clean $(TARGET)
 
 info:
-	@echo "::::::::::::::::::::РРЅС„РѕСЂРјР°С†РёСЏ::::::::::::::::::::"
-	@echo "Р¤Р°Р№Р» Р·Р°РїСѓСЃРєР° ------- $(TARGET)"
-	@echo "Р¤СѓРЅРєС†РёРё:"
+	@echo "::::::::::::::::::::Информация::::::::::::::::::::"
+	@echo "Файл запуска ------- $(TARGET)"
+	@echo "Функции:"
 	@echo "$(FUNCTIONS)" | tr ' ' '\n'
-	@echo "РћР±СЉРµРєС‚РЅРёРєРё:"
+	@echo "Объектники:"
 	@echo "$(FUNCTIONS)" | tr ' ' '\n'
