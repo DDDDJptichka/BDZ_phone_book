@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "windows.h": "c",
+        "locale.h": "c",
+        "copy.h": "c",
+        "string.h": "c",
+        "delete_person.h": "c",
+        "stdio.h": "c",
+        "stdlib.h": "c",
+        "add_new_person.h": "c",
+        "struct_user.h": "c",
+        "math.h": "c",
+        "structs.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "enabled"
+}

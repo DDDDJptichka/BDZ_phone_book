@@ -54,4 +54,6 @@ int copy(const char *input, const char *output){
 
     fclose(in);
     fclose(out);
+
+    return 0;
 }
