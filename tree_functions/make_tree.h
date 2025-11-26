@@ -1,0 +1,267 @@
+#pragma once
+
+#include "structs.h"
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+unsigned short flag_of_search;
+
+static int compare_strs(user_t user, leaf_t *leaf){
+
+    switch (flag_of_search)
+    {
+    case 1:
+    
+        return strcasecmp(user.first_name, leaf->user.first_name);
+    
+    case 2:
+
+        return strcasecmp(user.second_name, leaf->user.second_name);
+    
+    case 3:
+
+        return strcasecmp(user.third_name, leaf->user.third_name);
+
+    case 4:
+
+        return strcasecmp(user.telephone_number, leaf->user.telephone_number);
+    
+    }
+
+    return -2;
+}
+
+leaf_t* add_leaf(leaf_t **root, user_t user){
+
+    leaf_t *new_leaf = (leaf_t*)malloc(sizeof(leaf_t));
+
+    new_leaf->color = 'R';
+    new_leaf->user = user;
+    new_leaf->left = NULL;
+    new_leaf->right = NULL;
+    new_leaf->parent = NULL;
+    
+    leaf_t *parent_leaf = *root;
+
+    if (*root == NULL){
+
+        *root = new_leaf;
+        new_leaf->color = 'B';
+
+        return new_leaf;
+
+    }
+
+    while (parent_leaf != NULL){
+
+        new_leaf->parent = parent_leaf;
+
+        if (compare_strs(user, parent_leaf) > 0){
+
+            parent_leaf = parent_leaf->right;
+
+        }
+        else{
+
+            parent_leaf = parent_leaf->left;
+
+        }
+
+    }
+
+    parent_leaf = new_leaf->parent;
+    
+    if (compare_strs(user, new_leaf->parent) > 0){
+
+        parent_leaf->right = new_leaf;
+
+    }
+    else{
+
+        parent_leaf->left = new_leaf;
+
+    }
+
+    return new_leaf;
+}
+
+int left_rotate(leaf_t **root, leaf_t *leaf){
+
+    if ((leaf == NULL) || (leaf->right == NULL)){
+
+        return 0;
+
+    }
+
+    leaf_t *temporary_leaf = leaf->right;
+
+    leaf->right = temporary_leaf->left;
+
+    if (temporary_leaf->left != NULL){
+
+        temporary_leaf->left->parent = leaf;
+
+    }
+
+    temporary_leaf->parent = leaf->parent;
+
+    if (leaf->parent != NULL){
+
+        if (leaf->parent->left == leaf){
+
+            leaf->parent->left = temporary_leaf;
+
+        }
+        else{
+
+            leaf->parent->right = temporary_leaf;
+
+        }
+
+    }
+    else{
+
+        *root = temporary_leaf;
+
+    }
+
+    leaf->parent = temporary_leaf;
+    temporary_leaf->left = leaf;
+
+    return 0;
+    
+}
+
+int right_rotate(leaf_t **root, leaf_t *leaf){
+
+    if ((leaf == NULL) || (leaf->left == NULL)){
+
+        return 1;
+
+    }
+
+    leaf_t *temporary_leaf = leaf->left;
+
+    leaf->left = temporary_leaf->right;
+
+    if (temporary_leaf->right != NULL){
+
+        temporary_leaf->right->parent = leaf;
+
+    }
+
+    temporary_leaf->parent = leaf->parent;
+
+    if (leaf->parent != NULL){
+
+        if (leaf->parent->right == leaf){
+
+            leaf->parent->right = temporary_leaf;
+
+        }
+        else{
+
+            leaf->parent->left = temporary_leaf;
+            
+        }
+
+    }
+    else{
+
+        *root = temporary_leaf;
+
+    }
+
+    leaf->parent = temporary_leaf;
+    temporary_leaf->right = leaf;
+
+    return 0;
+}
+
+void balancing_of_tree(leaf_t **root, leaf_t *leaf){
+
+    leaf_t *uncle;
+
+    while ((leaf != *root) && (leaf->parent->color == 'R')){
+
+        if (leaf->parent->parent->left == leaf->parent){
+
+            uncle = leaf->parent->parent->right;
+
+            if ((uncle != NULL) && (uncle->color == 'R')){
+
+                leaf->parent->color = 'B';
+                uncle->color = 'B';
+                leaf->parent->parent->color = 'R';
+                leaf = leaf->parent->parent;
+
+            }
+            else{
+
+                if (leaf == leaf->parent->right){
+
+                    leaf = leaf->parent;
+                    left_rotate(root, leaf);
+
+                }
+
+                leaf->parent->color = 'B';
+                leaf->parent->parent->color = 'R';
+                right_rotate(root, leaf->parent->parent);
+
+            }
+
+        }
+        else{
+
+            uncle = leaf->parent->parent->left;
+
+            if ((uncle != NULL) && (uncle->color == 'R')){
+
+                leaf->parent->color = 'B';
+                uncle->color = 'B';
+                leaf->parent->parent->color = 'R';
+                leaf = leaf->parent->parent;
+
+            }
+            else{
+
+                if (leaf == leaf->parent->left){
+
+                    leaf = leaf->parent;
+                    right_rotate(root, leaf);
+
+                }
+
+                leaf->parent->color = 'B';
+                leaf->parent->parent->color = 'R';
+                left_rotate(root, leaf->parent->parent);
+
+            }
+
+        }
+
+    }
+
+    (*root)->color = 'B';
+
+}
+
+leaf_t** convert_list_to_tree(user_t *users, int current_row_num, unsigned short flag){
+
+    user_t person;
+    leaf_t **root = (leaf_t**)malloc(sizeof(leaf_t*));
+
+    *root = NULL;
+
+    flag_of_search = flag;
+    
+    for (int i = 0; i < current_row_num; ++i){
+
+        balancing_of_tree(root, add_leaf(root, users[i]));        
+
+    }
+
+    return root;
+}
