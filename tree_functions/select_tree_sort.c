@@ -6,7 +6,7 @@
 #include "make_tree.h"
 #include "search.h"
 
-int select_tree_sort (leaf_t** root){
+int select_tree_sort (node_t** root){
     
     SetConsoleOutputCP(1251);
     SetConsoleCP(1251);

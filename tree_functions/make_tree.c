@@ -246,18 +246,19 @@ void balancing_of_tree(leaf_t **root, leaf_t *leaf){
 
 }
 
-leaf_t** convert_list_to_tree(user_t *users, int current_row_num, unsigned short flag){
+leaf_t** convert_list_to_tree(node_t **node, int current_row_num, unsigned short flag){
 
-    user_t person;
+    node_t *curr_node = *node;
     leaf_t **root = (leaf_t**)malloc(sizeof(leaf_t*));
 
     *root = NULL;
 
     flag_of_search = flag;
     
-    for (int i = 0; i < current_row_num; ++i){
+    while (curr_node != NULL){
 
-        balancing_of_tree(root, add_leaf(root, users[i]));        
+        balancing_of_tree(root, add_leaf(root, curr_node->user));
+        curr_node = curr_node->right;        
 
     }
 
