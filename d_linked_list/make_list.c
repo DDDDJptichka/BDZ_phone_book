@@ -137,6 +137,29 @@ node_t** create_list (const char* input, int* row_num){
 
     }
 
-    free(last_node);
     return users;
+}
+
+void add_to_list(node_t** root, user_t new_user){
+
+    node_t* new_node = (node_t*)malloc(sizeof(node_t));
+
+    if ((*root)->right != NULL){
+
+        new_node->right = (*root)->right;
+        new_node->left = *root;
+        new_node->user = new_user;
+        (*root)->right = new_node;
+        new_node->right->left = new_node;
+
+    }
+    else{
+
+        new_node->right = NULL;
+        new_node->left = *root;
+        new_node->user = new_user;
+        (*root)->right = new_node;
+
+    }
+    
 }

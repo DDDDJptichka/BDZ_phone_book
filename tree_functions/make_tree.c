@@ -5,7 +5,7 @@
 
 unsigned short flag_of_search;
 
-static int compare_strs(user_t user, leaf_t *leaf){
+int compare_strs(user_t user, leaf_t *leaf){
 
     switch (flag_of_search)
     {
@@ -264,3 +264,18 @@ leaf_t** convert_list_to_tree(node_t **node, int current_row_num, unsigned short
 
     return root;
 }
+
+// int pr(leaf_t **root){
+
+//     leaf_t *curr = *root;
+
+//     if (curr != NULL){
+
+//         printf("%s %s %s %s %s\n", curr->user.first_name, curr->user.second_name, curr->user.third_name, curr->user.telephone_number, curr->user.another_info);
+//         pr(&(curr->left));
+//         pr(&(curr->right));
+
+//     }
+
+//     return 0;
+// }

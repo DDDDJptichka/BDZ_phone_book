@@ -24,7 +24,7 @@ int main(){
     
     initialize_in_out_files();
     copy(input_file_name, output_file_name);
-    users = create_list(input_file_name, &row_num);
+    users = create_list(input_file_name, &row_num);//
     
 
     // while ((y_or_n == 'Y') || (y_or_n == 'y')){
@@ -37,7 +37,11 @@ int main(){
     root = convert_list_to_tree(users, row_num, 1);
     fflush(stdout);
     fflush(stdin);
-    int fl = select_tree_sort(root);
+    
+    // printf("\n\n\n\n\n");
+    // pr(root);
+
+    int fl = select_tree_sort(root, users);//
     
     if (fl == 1){
 
@@ -45,9 +49,10 @@ int main(){
 
     }
 
+
     while (fl != -1){
 
-        fl = select_tree_sort(root);
+        fl = select_tree_sort(root, users);
         
         if (fl == 1){
 
@@ -56,7 +61,7 @@ int main(){
         }
 
     }
-
+    
     //add_people_to_matrix(create_matrix(input_file_name, &row_num), )
     
     //printf("\n%s, \n%d", a[1][2], a[1][2] == NULL);

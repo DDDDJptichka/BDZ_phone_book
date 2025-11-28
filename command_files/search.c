@@ -6,7 +6,7 @@
 unsigned short flag_of_search;
 unsigned int num_of_user = 0;
 
-static int compare_strs_for_search (const char* keyword, leaf_t* current_leaf){
+int compare_strs_for_search (const char* keyword, leaf_t* current_leaf){
 
     switch (flag_of_search)
     {
@@ -37,28 +37,32 @@ static int compare_strs_for_search (const char* keyword, leaf_t* current_leaf){
 
 int search_user(leaf_t* root, const char *keyword, unsigned short int flag){
 
-    leaf_t *current_leaf = root;
+    int cmp_res;
+
     flag_of_search = flag;
+    cmp_res = 0;
 
-    while (current_leaf != NULL){
+    if (root != NULL){
 
-        if (compare_strs_for_search(keyword, current_leaf) > 0){
+        cmp_res = compare_strs_for_search(keyword, root);
 
-            current_leaf = current_leaf->right;
+        if (cmp_res > 0){
+
+            search_user(root->right, keyword, flag_of_search);
 
         }
-        else if (compare_strs_for_search(keyword, current_leaf) < 0){
+        else if (cmp_res < 0){
 
-            current_leaf = current_leaf->left;
+            search_user(root->left, keyword, flag_of_search);
 
         }
         else{
 
-            printf("%s %s %s %s %s\n", current_leaf->user.first_name, current_leaf->user.second_name, current_leaf->user.third_name, current_leaf->user.telephone_number, current_leaf->user.another_info);
+            printf("%s %s %s %s %s\n", root->user.first_name, root->user.second_name, root->user.third_name, root->user.telephone_number, root->user.another_info);
             ++num_of_user;
-            search_user(current_leaf->left, keyword, flag_of_search);
-            search_user(current_leaf->right, keyword, flag_of_search);
-            break;
+            search_user(root->left, keyword, flag_of_search);
+            search_user(root->right, keyword, flag_of_search);
+
 
         }
 

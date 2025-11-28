@@ -3,3 +3,5 @@
 #include "structs.h"
 
 node_t** create_list(const char* input, int* row_num);
+
+void add_to_list(node_t** root, user_t new_user);

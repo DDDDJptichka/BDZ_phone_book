@@ -4,9 +4,10 @@
 #include <windows.h>
 #include "add_new_person.h"
 #include "make_tree.h"
+#include "make_list.h"
 #include "search.h"
 
-int select_tree_sort (node_t** root){
+int select_tree_sort(leaf_t** root, node_t** list_root){
     
     SetConsoleOutputCP(1251);
     SetConsoleCP(1251);
@@ -49,12 +50,15 @@ int select_tree_sort (node_t** root){
         fflush(stdin);
         return 0;
 
-    case 'A':
+    case 'A':{
 
-        balancing_of_tree(root, add_leaf(root, add_new_person()));
+        user_t new_user = add_new_person();
+
+        add_to_list(list_root, new_user);
+        balancing_of_tree(root, add_leaf(root, new_user));
         printf("\n----------------------Пользователь добавлен----------------------\n");
-        
         return 1;
+    }
 
     case 'Z':
 
