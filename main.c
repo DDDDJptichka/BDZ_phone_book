@@ -43,6 +43,10 @@ int main(){
 
     int fl = select_tree_sort(root, users);//
     
+    printf("\n\n\n\n");
+    pr(root);
+    printf("\n\n\n\n");
+
     if (fl == 1){
 
         copy("output_2.txt", output_file_name);
@@ -52,6 +56,10 @@ int main(){
     while (fl != -1){
 
         fl = select_tree_sort(root, users);
+
+        printf("\n\n\n\n");
+        pr(root);
+        printf("\n\n\n\n");
         
         if (fl == 1){
 

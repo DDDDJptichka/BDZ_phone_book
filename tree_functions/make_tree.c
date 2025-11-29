@@ -265,17 +265,30 @@ leaf_t** convert_list_to_tree(node_t **node, unsigned short flag){
     return root;
 }
 
-// int pr(leaf_t **root){
+void clean_tree(leaf_t *leaf){
 
-//     leaf_t *curr = *root;
+    if (leaf != NULL){
 
-//     if (curr != NULL){
+        clean_tree(leaf->left);
+        clean_tree(leaf->right);
 
-//         printf("%s %s %s %s %s\n", curr->user.first_name, curr->user.second_name, curr->user.third_name, curr->user.telephone_number, curr->user.another_info);
-//         pr(&(curr->left));
-//         pr(&(curr->right));
+    }
 
-//     }
+    free(leaf);
 
-//     return 0;
-// }
+}
+
+int pr(leaf_t **root){
+
+    leaf_t *curr = *root;
+
+    if (curr != NULL){
+
+        printf("%s %s %s %s %s\n", curr->user.first_name, curr->user.second_name, curr->user.third_name, curr->user.telephone_number, curr->user.another_info);
+        pr(&(curr->left));
+        pr(&(curr->right));
+
+    }
+
+    return 0;
+}

@@ -52,7 +52,11 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
         }
         else{
 
-            convert_list_to_tree(list_root, search_flag);
+            clean_tree(*root);
+            leaf_t** new_root = (leaf_t**)malloc(sizeof(leaf_t*));
+            new_root = convert_list_to_tree(list_root, search_flag);
+            *root = *new_root;
+            free(new_root);
             search_user(*root, buffer, search_flag);
 
         }
