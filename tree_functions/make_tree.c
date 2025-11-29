@@ -258,7 +258,7 @@ leaf_t** convert_list_to_tree(node_t **node, unsigned short flag){
     while (curr_node != NULL){
 
         balancing_of_tree(root, add_leaf(root, curr_node->user));
-        curr_node = curr_node->right;        
+        curr_node = curr_node->right;
 
     }
 

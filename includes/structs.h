@@ -31,6 +31,6 @@ typedef struct Leaf{
     struct Leaf *left;
     struct Leaf *right;
     struct Leaf *parent;
-    struct Node **node;
+    struct Node *node;
 
 } leaf_t;
