@@ -7,7 +7,7 @@
 #include "add_new_person.h"
 #include "make_list.h"
 #include "make_tree.h"
-#include "select_tree_sort.h"
+#include "tree_operations.h"
 
 extern char input_file_name[];
 extern char output_file_name[];
@@ -34,7 +34,7 @@ int main(){
 
     // }
 
-    root = convert_list_to_tree(users, row_num, 1);
+    root = convert_list_to_tree(users, 1);
     fflush(stdout);
     fflush(stdin);
     
@@ -49,7 +49,6 @@ int main(){
 
     }
 
-
     while (fl != -1){
 
         fl = select_tree_sort(root, users);
@@ -62,20 +61,5 @@ int main(){
 
     }
     
-    //add_people_to_matrix(create_matrix(input_file_name, &row_num), )
-    
-    //printf("\n%s, \n%d", a[1][2], a[1][2] == NULL);
-
-    //printf("\n%d", row_num);
-    //printf("\n%d", users[1].second_name[0] == '\0');
-
-    // printf("%s ---- root\n", (*root)->user.first_name);
-    // printf("%s ---- left\n", (*root)->left);
-    // printf("%s ---- right\n", (*root)->right);
-    // printf("%s ---- left--left\n", ((*root)->left)->left);
-    // printf("%s ---- left--left--left\n", (((*root)->left)->left)->left);
-    // printf("%s ---- left--left--right\n", (((*root)->left)->left)->right);
-
-
     return 0;
 }

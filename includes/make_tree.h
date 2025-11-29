@@ -12,4 +12,4 @@ int right_rotate(leaf_t **root, leaf_t *leaf);
 
 void balancing_of_tree(leaf_t **root, leaf_t *leaf);
 
-leaf_t** convert_list_to_tree(node_t **node, int current_row_num, unsigned short flag);
+leaf_t** convert_list_to_tree(node_t **node, unsigned short flag);

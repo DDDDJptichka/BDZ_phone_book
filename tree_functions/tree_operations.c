@@ -14,13 +14,13 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
     setlocale(LC_ALL, "Russian");
 
     char flag_of_operation;
-    int search_flag, check_input;
+    int last_search_flag, search_flag, check_input;
     char buffer[500];
 
+    last_search_flag = 0;
     check_input = 0;
 
     printf("\nСписок возможных операций: \n\nНайти информацию о пользователе   ------- Введите: S\nДобавить пользователя ------------------- Введите: A\nУдалить пользователя -------------------- Введите: D\nЗавершить работу ------------------------ Введите: Z\n\n");
-    //getchar();
     flag_of_operation = getc(stdin);
 
     switch (flag_of_operation){
@@ -45,7 +45,19 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
         scanf("%499s", buffer);
         printf("\n");
 
-        search_user(*root, buffer, search_flag);
+        if (last_search_flag == search_flag){
+
+            search_user(*root, buffer, search_flag);
+
+        }
+        else{
+
+            convert_list_to_tree(list_root, search_flag);
+            search_user(*root, buffer, search_flag);
+
+        }
+
+        last_search_flag = search_flag;
         fflush(stdout);
         fflush(stdin);
         return 0;
