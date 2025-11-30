@@ -23,10 +23,10 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
     printf("\nСписок возможных операций: \n\nНайти информацию о пользователе   ------- Введите: S\nДобавить пользователя ------------------- Введите: A\nУдалить пользователя -------------------- Введите: D\nЗавершить работу ------------------------ Введите: Z\n\n");
     flag_of_operation = getc(stdin);
 
-    switch (flag_of_operation){
-
-    case 'S':
+    if ((flag_of_operation == 'S') || (flag_of_operation == 'D')){
         
+        int num_of_searched_users = 0;
+
         printf("\nПо какому полю ищем?\n\n");
         printf("1 - по имени\n2 - по фамилии\n3 - по отчеству\n4 - по номеру телефона\n5 - по доп. информации\n\n");
         check_input = scanf("%d", &search_flag);
@@ -47,7 +47,7 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
 
         if (last_search_flag == search_flag){
 
-            search_user(*root, buffer, search_flag);
+            num_of_searched_users = search_user(*root, buffer, search_flag);
 
         }
         else{
@@ -57,30 +57,58 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
             new_root = convert_list_to_tree(list_root, search_flag);
             *root = *new_root;
             free(new_root);
-            search_user(*root, buffer, search_flag);
+            num_of_searched_users = search_user(*root, buffer, search_flag);
+
+        }
+
+        if (num_of_searched_users == 0){
+
+            printf("------------- Такого пользователя не существует -------------");
+            fflush(stdout);
+            fflush(stdin);
+            return 0;
 
         }
 
         last_search_flag = search_flag;
         fflush(stdout);
         fflush(stdin);
-        return 0;
 
-    case 'A':{
+        if (flag_of_operation == 'D'){
+
+            printf("\nВведите номер пользователя, которого хотите удалить\n\n");
+            unsigned int input_check, num_of_user;
+            input_check = scanf("%d", &num_of_user);
+
+            while ((input_check == 0) || (num_of_user == 0)){
+
+                printf("\nВведите номер пользователя, которого хотите удалить\n\n");
+                fflush(stdin);
+                input_check = scanf("%d", &num_of_user);
+
+            }
+
+            fflush(stdout);
+            fflush(stdin);
+
+        }
+        return 0;
+    }
+    else if (flag_of_operation == 'A'){
 
         user_t new_user = add_new_person();
 
-        add_to_list(list_root, new_user);
-        balancing_of_tree(root, add_leaf(root, new_user));
+        node_t* new_node = add_to_list(list_root, new_user);
+        balancing_of_tree(root, add_leaf(root, new_node));
         printf("\n----------------------Пользователь добавлен----------------------\n");
+
         return 1;
     }
-
-    case 'Z':
+    else if (flag_of_operation == 'Z'){
 
         return -1;
-
-    default:
+    }
+    else{
 
         return -2;
     

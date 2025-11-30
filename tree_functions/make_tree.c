@@ -25,20 +25,26 @@ int compare_strs(user_t user, leaf_t *leaf){
 
         return strcasecmp(user.telephone_number, leaf->user.telephone_number);
     
+    case 5:
+
+        return strcasecmp(user.another_info, leaf->user.another_info);    
+
     }
+    
 
     return -2;
 }
 
-leaf_t* add_leaf(leaf_t **root, user_t user){
+leaf_t* add_leaf(leaf_t **root, node_t* new_node){
 
     leaf_t *new_leaf = (leaf_t*)malloc(sizeof(leaf_t));
 
     new_leaf->color = 'R';
-    new_leaf->user = user;
+    new_leaf->user = new_node->user;
     new_leaf->left = NULL;
     new_leaf->right = NULL;
     new_leaf->parent = NULL;
+    new_leaf->node = new_node;
     
     leaf_t *parent_leaf = *root;
 
@@ -55,7 +61,7 @@ leaf_t* add_leaf(leaf_t **root, user_t user){
 
         new_leaf->parent = parent_leaf;
 
-        if (compare_strs(user, parent_leaf) > 0){
+        if (compare_strs(new_node->user, parent_leaf) > 0){
 
             parent_leaf = parent_leaf->right;
 
@@ -70,7 +76,7 @@ leaf_t* add_leaf(leaf_t **root, user_t user){
 
     parent_leaf = new_leaf->parent;
     
-    if (compare_strs(user, new_leaf->parent) > 0){
+    if (compare_strs(new_node->user, new_leaf->parent) > 0){
 
         parent_leaf->right = new_leaf;
 
@@ -257,7 +263,7 @@ leaf_t** convert_list_to_tree(node_t **node, unsigned short flag){
     
     while (curr_node != NULL){
 
-        balancing_of_tree(root, add_leaf(root, curr_node->user));
+        balancing_of_tree(root, add_leaf(root, curr_node));
         curr_node = curr_node->right;
 
     }

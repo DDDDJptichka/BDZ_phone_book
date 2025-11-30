@@ -58,16 +58,15 @@ int search_user(leaf_t* root, const char *keyword, unsigned short int flag){
         }
         else{
 
-            printf("%s %s %s %s %s\n", root->user.first_name, root->user.second_name, root->user.third_name, root->user.telephone_number, root->user.another_info);
             ++num_of_user;
+            printf("%d: %s %s %s %s %s\n", num_of_user, root->user.first_name, root->user.second_name, root->user.third_name, root->user.telephone_number, root->user.another_info);
             search_user(root->left, keyword, flag_of_search);
             search_user(root->right, keyword, flag_of_search);
-
 
         }
 
     }
 
-    return 0;
+    return num_of_user;
 
 }
