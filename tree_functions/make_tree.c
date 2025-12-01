@@ -271,6 +271,143 @@ leaf_t** convert_list_to_tree(node_t **node, unsigned short flag){
     return root;
 }
 
+leaf_t* find_min_leaf(leaf_t *leaf){
+
+    while ((leaf != NULL) && (leaf->left != NULL)){
+
+        leaf = leaf->left;
+
+    }
+
+    return leaf;
+
+}
+
+void* switch_local_roots(leaf_t **root, leaf_t *local_root_1, leaf_t *local_root_2){
+
+    if (local_root_1->parent == NULL){
+
+        *root = local_root_2;
+
+    }
+    else if (local_root_1 == local_root_1->parent->left){
+
+        local_root_1->parent->left = local_root_2;
+
+    }
+    else{
+
+        local_root_1->parent->right = local_root_2;
+
+    }
+    
+    if (local_root_2 != NULL){
+
+        local_root_2->parent = local_root_1->parent;
+
+    }
+    
+
+}
+
+void balancing_tree_for_del(leaf_t **root, leaf_t *leaf){
+
+    while (((leaf == NULL) || (leaf->color == 'B')) && (leaf != *root)){
+
+        if (leaf == leaf->parent->left){
+
+            leaf_t *leaf_bro = leaf->parent->right;
+
+            if ((leaf_bro != NULL) && (leaf_bro->color == 'R')){
+
+                leaf_bro->color = 'B';
+                leaf->parent->color = 'R';
+                left_rotate(root, leaf->parent);
+                leaf_bro = leaf->parent->right;
+
+            }
+
+            if ((leaf_bro != NULL) && (((leaf_bro->left == NULL) || (leaf_bro->left->color == 'B')) && ((leaf_bro->right == NULL) || (leaf_bro->right->color == 'B')))){
+
+                leaf_bro->color = 'R';
+                leaf = leaf->parent;
+
+            }
+            else{
+
+                if ((leaf_bro != NULL) && ((leaf_bro->right == NULL) || (leaf_bro->right->color == 'B'))){
+
+                    if (leaf_bro->left != NULL){
+
+                        leaf_bro->left->color = 'B';
+
+                    }
+
+                    leaf_bro->color = 'R';
+                    right_rotate(root, leaf_bro);
+                    leaf_bro = leaf->parent->right;
+
+                }
+
+                if (leaf_bro != NULL){
+
+                    leaf_bro->color = leaf->parent->color;
+                    
+                    if (leaf_bro->right != NULL){
+
+                        leaf->right->color == 'B';
+
+                    }
+                }
+                
+                leaf->parent->color = 'B';
+                left_rotate(root, leaf->parent);
+                leaf = *root;
+            }
+        }
+        else{
+
+            leaf_t *leaf_bro = leaf->parent->left;
+
+            if ((leaf_bro != NULL) && (leaf_bro->color == 'R')){
+
+                leaf_bro->color = 'B';
+                leaf->parent->color = 'R';
+                right_rotate(root, leaf->parent);
+                leaf_bro = leaf->parent->left;
+
+            }
+
+            if ((leaf_bro != NULL) && (((leaf_bro->left == NULL) || (leaf_bro->left->color == 'B')) && ((leaf_bro->right == NULL) || (leaf_bro->right->color == 'B')))){
+
+                leaf_bro->color = 'R';
+                leaf = leaf->parent;
+
+            }
+            else{
+
+                if ((leaf_bro != NULL) && ((leaf_bro->left == NULL) || (leaf_bro->left->color == 'B'))){
+
+                    if (leaf_bro->left != NULL){
+
+                        leaf_bro->left->color = 'B';
+
+                    }
+
+                    leaf_bro->color = 'R';
+                    right_rotate(root, leaf_bro);
+                    leaf_bro = leaf->parent->right;
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
 void clean_tree(leaf_t *leaf){
 
     if (leaf != NULL){
