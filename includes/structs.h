@@ -34,3 +34,10 @@ typedef struct Leaf{
     struct Node *node;
 
 } leaf_t;
+
+typedef struct Short_Node{
+
+    struct Leaf *leaf;
+    struct Short_Node *right;
+
+} snode_t;

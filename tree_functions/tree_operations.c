@@ -25,6 +25,7 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
 
     if ((flag_of_operation == 'S') || (flag_of_operation == 'D')){
         
+        snode_t* search_list;
         int num_of_searched_users = 0;
 
         printf("\nПо какому полю ищем?\n\n");
@@ -40,14 +41,15 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
             fflush(stdin);
             
         }
-        
+
+        clean_num(0);
         printf("\nВведите слово для поиска\n\n");
         scanf("%499s", buffer);
         printf("\n");
 
         if (last_search_flag == search_flag){
 
-            num_of_searched_users = search_user(*root, buffer, search_flag);
+            num_of_searched_users = search_user(*root, search_list, buffer, search_flag);
 
         }
         else{
@@ -57,7 +59,7 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
             new_root = convert_list_to_tree(list_root, search_flag);
             *root = *new_root;
             free(new_root);
-            num_of_searched_users = search_user(*root, buffer, search_flag);
+            num_of_searched_users = search_user(*root, search_list, buffer, search_flag);
 
         }
 
@@ -66,6 +68,7 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
             printf("------------- Такого пользователя не существует -------------");
             fflush(stdout);
             fflush(stdin);
+            free(search_list);
             return 0;
 
         }
@@ -80,7 +83,7 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
             unsigned int input_check, num_of_user;
             input_check = scanf("%d", &num_of_user);
 
-            while ((input_check == 0) || (num_of_user == 0)){
+            while ((input_check == 0) || (num_of_user == 0) || (num_of_searched_users < num_of_user)){
 
                 printf("\nВведите номер пользователя, которого хотите удалить\n\n");
                 fflush(stdin);
@@ -90,6 +93,19 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
 
             fflush(stdout);
             fflush(stdin);
+
+            printf("----%s----", search_list->right->leaf->user.first_name);
+            
+            for (unsigned int i = 0; i < num_of_user; ++i){
+
+                printf("----%s----", search_list->right->leaf->user.first_name);
+                search_list = search_list->right;
+
+            }
+
+            delete_leaf(root, search_list->leaf);
+            clean_slist(search_list);
+            printf("\n\n----------------------Пользователь удален----------------------\n\n");
 
         }
         return 0;

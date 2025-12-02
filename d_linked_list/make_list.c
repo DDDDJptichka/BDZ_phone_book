@@ -164,3 +164,15 @@ node_t* add_to_list(node_t** root, user_t new_user){
 
     return new_node;
 }
+
+void clean_slist(snode_t* snode){
+
+    if (snode->right != NULL){
+
+        clean_slist(snode->right);
+
+    }
+
+    free(snode);
+
+}

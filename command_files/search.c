@@ -35,7 +35,7 @@ int compare_strs_for_search (const char* keyword, leaf_t* current_leaf){
     return -2;
 }
 
-int search_user(leaf_t* root, const char *keyword, unsigned short int flag){
+int search_user(leaf_t* root, snode_t* last_node, const char *keyword, unsigned short int flag){
 
     int cmp_res;
 
@@ -48,25 +48,40 @@ int search_user(leaf_t* root, const char *keyword, unsigned short int flag){
 
         if (cmp_res > 0){
 
-            search_user(root->right, keyword, flag_of_search);
+            search_user(root->right, last_node, keyword, flag_of_search);
 
         }
         else if (cmp_res < 0){
 
-            search_user(root->left, keyword, flag_of_search);
+            search_user(root->left, last_node, keyword, flag_of_search);
 
         }
         else{
 
+            snode_t* snode = (snode_t*)malloc(sizeof(snode_t));
+            snode->leaf = root;
+
+            if (last_node != NULL){
+
+                last_node->right = snode;
+
+            }
+            
             ++num_of_user;
             printf("%d: %s %s %s %s %s\n", num_of_user, root->user.first_name, root->user.second_name, root->user.third_name, root->user.telephone_number, root->user.another_info);
-            search_user(root->left, keyword, flag_of_search);
-            search_user(root->right, keyword, flag_of_search);
+            search_user(root->left, snode, keyword, flag_of_search);
+            search_user(root->right, snode, keyword, flag_of_search);
 
         }
 
     }
 
     return num_of_user;
+
+}
+
+void clean_num(unsigned short int zero){
+
+    num_of_user = zero;
 
 }

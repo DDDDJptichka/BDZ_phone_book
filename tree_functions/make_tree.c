@@ -283,7 +283,7 @@ leaf_t* find_min_leaf(leaf_t *leaf){
 
 }
 
-void* switch_local_roots(leaf_t **root, leaf_t *local_root_1, leaf_t *local_root_2){
+void switch_local_roots(leaf_t **root, leaf_t *local_root_1, leaf_t *local_root_2){
 
     if (local_root_1->parent == NULL){
 
@@ -355,7 +355,7 @@ void balancing_tree_for_del(leaf_t **root, leaf_t *leaf){
                     
                     if (leaf_bro->right != NULL){
 
-                        leaf->right->color == 'B';
+                        leaf_bro->right->color = 'B';
 
                     }
                 }
@@ -378,7 +378,7 @@ void balancing_tree_for_del(leaf_t **root, leaf_t *leaf){
 
             }
 
-            if ((leaf_bro != NULL) && (((leaf_bro->left == NULL) || (leaf_bro->left->color == 'B')) && ((leaf_bro->right == NULL) || (leaf_bro->right->color == 'B')))){
+            if ((leaf_bro != NULL) && (((leaf_bro->right == NULL) || (leaf_bro->right->color == 'B')) && ((leaf_bro->left == NULL) || (leaf_bro->left->color == 'B')))){
 
                 leaf_bro->color = 'R';
                 leaf = leaf->parent;
@@ -388,23 +388,114 @@ void balancing_tree_for_del(leaf_t **root, leaf_t *leaf){
 
                 if ((leaf_bro != NULL) && ((leaf_bro->left == NULL) || (leaf_bro->left->color == 'B'))){
 
+                    if (leaf_bro->right != NULL){
+
+                        leaf_bro->right->color = 'B';
+
+                    }
+
+                    leaf_bro->color = 'R';
+                    left_rotate(root, leaf_bro);
+                    leaf_bro = leaf->parent->left;
+
+                }
+
+                if (leaf_bro != NULL){
+
+                    leaf_bro->color = leaf->parent->color;
+
                     if (leaf_bro->left != NULL){
 
                         leaf_bro->left->color = 'B';
 
                     }
 
-                    leaf_bro->color = 'R';
-                    right_rotate(root, leaf_bro);
-                    leaf_bro = leaf->parent->right;
-
                 }
+
+                leaf->parent->color = 'B';
+                right_rotate(root, leaf->parent);
+                leaf = *root;
 
             }
 
         }
 
     }
+
+    if (leaf != NULL){
+
+        leaf->color = 'B';
+
+    }
+
+}
+
+void delete_leaf(leaf_t **root, leaf_t *leaf){
+
+    leaf_t *curr = leaf;
+    leaf_t *new_leaf = NULL;
+    char curr_leaf_color = leaf->color;
+
+    if (leaf->left == NULL){
+
+        new_leaf = leaf->right;
+        switch_local_roots(root, leaf, leaf->right);
+
+    }
+    else if (leaf->right == NULL){
+
+        new_leaf = leaf->left;
+        switch_local_roots(root, leaf, leaf->left);
+
+    }
+    else{
+
+        curr = find_min_leaf(leaf->right);
+        curr_leaf_color = curr->color;
+        new_leaf = curr->right;
+
+
+        if (curr->parent == leaf){
+
+            if (new_leaf != NULL){
+
+                new_leaf->parent = curr;
+
+            }
+
+        }
+        else{
+
+            switch_local_roots(root, curr, curr->right);
+            curr->right = leaf->right;
+            
+            if (curr->right != NULL){
+
+                curr->right->parent = curr;
+
+            }
+
+        }
+
+        switch_local_roots(root, leaf, curr);
+        curr->left = leaf->left;
+
+        if (curr->left != NULL){
+
+            curr->left->parent = curr;
+
+        }
+
+        curr->color = leaf->color;
+    }
+
+    if (curr_leaf_color == 'B'){
+
+        balancing_tree_for_del(root, new_leaf);
+        
+    }
+
+    free(leaf);
 
 }
 
