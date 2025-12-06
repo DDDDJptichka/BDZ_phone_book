@@ -7,6 +7,8 @@
 #include "make_list.h"
 #include "search.h"
 
+int last_search_flag = 0;
+
 int select_tree_sort(leaf_t** root, node_t** list_root){
     
     SetConsoleOutputCP(1251);
@@ -14,10 +16,9 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
     setlocale(LC_ALL, "Russian");
 
     char flag_of_operation;
-    int last_search_flag, search_flag, check_input;
+    int search_flag, check_input;
     char buffer[500];
 
-    last_search_flag = 0;
     check_input = 0;
 
     printf("\nСписок возможных операций: \n\nНайти информацию о пользователе   ------- Введите: S\nДобавить пользователя ------------------- Введите: A\nУдалить пользователя -------------------- Введите: D\nЗавершить работу ------------------------ Введите: Z\n\n");
@@ -25,7 +26,10 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
 
     if ((flag_of_operation == 'S') || (flag_of_operation == 'D')){
         
-        snode_t* search_list;
+        snode_t** search_list = (snode_t**)malloc(sizeof(snode_t*));
+        snode_t** last_snode = (snode_t**)malloc(sizeof(snode_t*));
+        *search_list = NULL;
+        *last_snode = NULL;
         int num_of_searched_users = 0;
 
         printf("\nПо какому полю ищем?\n\n");
@@ -49,17 +53,16 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
 
         if (last_search_flag == search_flag){
 
-            num_of_searched_users = search_user(*root, search_list, buffer, search_flag);
+            num_of_searched_users = search_user(*root, search_list, last_snode, buffer, search_flag);
 
         }
         else{
 
             clean_tree(*root);
-            leaf_t** new_root = (leaf_t**)malloc(sizeof(leaf_t*));
-            new_root = convert_list_to_tree(list_root, search_flag);
+            leaf_t** new_root = convert_list_to_tree(list_root, search_flag);
             *root = *new_root;
             free(new_root);
-            num_of_searched_users = search_user(*root, search_list, buffer, search_flag);
+            num_of_searched_users = search_user(*root, search_list, last_snode, buffer, search_flag);
 
         }
 
@@ -93,18 +96,30 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
 
             fflush(stdout);
             fflush(stdin);
-
-            printf("----%s----", search_list->right->leaf->user.first_name);
             
-            for (unsigned int i = 0; i < num_of_user; ++i){
+            snode_t** del_node = search_list;
+                    
+            for (unsigned int i = 1; i < num_of_user; ++i){
 
-                printf("----%s----", search_list->right->leaf->user.first_name);
-                search_list = search_list->right;
+                *del_node = (*del_node)->right;
 
             }
 
-            delete_leaf(root, search_list->leaf);
-            clean_slist(search_list);
+            leaf_t* leaf_to_del = (*del_node)->leaf;
+            node_t* node_to_del = (*del_node)->leaf->node;
+
+            printf("-------------%s-------\n", leaf_to_del);
+            delete_leaf(root, leaf_to_del);
+            printf("+");
+            del_from_list(list_root, node_to_del);
+            printf("+");
+            clean_slist(*search_list);
+            printf("+");
+            free(search_list);
+            printf("+");
+            free(last_snode);
+            printf("+");
+
             printf("\n\n----------------------Пользователь удален----------------------\n\n");
 
         }

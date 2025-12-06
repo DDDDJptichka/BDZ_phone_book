@@ -312,6 +312,12 @@ void switch_local_roots(leaf_t **root, leaf_t *local_root_1, leaf_t *local_root_
 
 void balancing_tree_for_del(leaf_t **root, leaf_t *leaf){
 
+    if (leaf == NULL){
+
+        return;
+
+    }
+
     while (((leaf == NULL) || (leaf->color == 'B')) && (leaf != *root)){
 
         if (leaf == leaf->parent->left){
@@ -436,24 +442,65 @@ void delete_leaf(leaf_t **root, leaf_t *leaf){
     leaf_t *new_leaf = NULL;
     char curr_leaf_color = leaf->color;
 
-    if (leaf->left == NULL){
+    if ((leaf->left == NULL) && (leaf->right == NULL)){
 
+        if (leaf->parent == NULL){
+
+            *root == NULL;
+            free(leaf);
+            return;
+
+        }
+
+        leaf_t* parent = leaf->parent;
+        new_leaf = NULL;
+
+        if (parent->left == leaf){
+
+            parent->left = NULL;
+
+        }
+        else{
+
+            parent->right = NULL;
+
+        }
+
+        if (curr_leaf_color == 'B'){
+
+            balancing_tree_for_del(root, NULL);
+
+        }
+
+        free(leaf);
+        return;
+        
+    }
+    else if (leaf->left == NULL){
+
+        printf("+");
         new_leaf = leaf->right;
+        printf("%d", new_leaf == NULL);
         switch_local_roots(root, leaf, leaf->right);
 
     }
     else if (leaf->right == NULL){
 
+        printf("/");
         new_leaf = leaf->left;
         switch_local_roots(root, leaf, leaf->left);
 
     }
     else{
 
+        printf("=");
         curr = find_min_leaf(leaf->right);
         curr_leaf_color = curr->color;
         new_leaf = curr->right;
 
+        node_t* tmp_node = leaf->node;
+        leaf->node = curr->node;
+        curr->node = tmp_node;
 
         if (curr->parent == leaf){
 

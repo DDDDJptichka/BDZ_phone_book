@@ -165,6 +165,34 @@ node_t* add_to_list(node_t** root, user_t new_user){
     return new_node;
 }
 
+void del_from_list(node_t** list_root, node_t* del_node){
+
+    if (del_node->left == NULL){
+
+        *list_root = del_node->right;
+        
+        if (del_node->right != NULL){
+
+            del_node->right->left = NULL;
+
+        }
+
+    }
+    else if (del_node->right == NULL){
+
+        del_node->left->right = NULL;
+
+    }
+    else{
+
+        del_node->left->right = del_node->right;
+        del_node->right->left = del_node->left;
+
+    }
+
+    free(del_node);
+}
+
 void clean_slist(snode_t* snode){
 
     if (snode->right != NULL){
