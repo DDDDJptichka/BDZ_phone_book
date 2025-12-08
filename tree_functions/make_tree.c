@@ -29,9 +29,24 @@ int compare_strs(user_t user, leaf_t *leaf){
 
         return strcasecmp(user.another_info, leaf->user.another_info);    
 
+    case 6:
+
+        if (strcasecmp(user.first_name, leaf->user.first_name) == 0){
+
+            if (strcasecmp(user.second_name, leaf->user.second_name) == 0){
+
+                return strcasecmp(user.third_name, leaf->user.third_name);
+
+            }
+
+            return strcasecmp(user.second_name, leaf->user.second_name);
+
+        }
+
+        return strcasecmp(user.first_name, leaf->user.first_name);
+
     }
     
-
     return -2;
 }
 
