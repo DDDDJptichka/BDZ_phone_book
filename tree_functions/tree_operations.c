@@ -16,12 +16,10 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
     setlocale(LC_ALL, "Russian");
 
     char flag_of_operation;
-    int search_flag, check_input;
+    int search_flag = 0;
     char buffer[500];
 
-    check_input = 0;
-
-    printf("\nСписок возможных операций: \n\nНайти информацию о пользователе   ------- Введите: S\nДобавить пользователя ------------------- Введите: A\nУдалить пользователя -------------------- Введите: D\nЗавершить работу ------------------------ Введите: Z\n\n");
+    printf("\nСписок возможных операций: \n\nНайти информацию о пользователе --------- Введите: S\nДобавить пользователя ------------------- Введите: A\nУдалить пользователя -------------------- Введите: D\nЗавершить работу ------------------------ Введите: Z\n\n");
     flag_of_operation = getc(stdin);
 
     if ((flag_of_operation == 'S') || (flag_of_operation == 'D')){
@@ -34,13 +32,13 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
 
         printf("\nПо какому полю ищем?\n\n");
         printf("1 - по имени\n2 - по фамилии\n3 - по отчеству\n4 - по номеру телефона\n5 - по доп. информации\n\n");
-        check_input = scanf("%d", &search_flag);
+        scanf("%d", &search_flag);
 
-        while ((check_input != 1) && (search_flag != 1) && (search_flag != 2) && (search_flag != 3) && (search_flag != 4) && (search_flag != 5)){
+        while ((search_flag != 1) && (search_flag != 2) && (search_flag != 3) && (search_flag != 4) && (search_flag != 5)){
 
-            printf("\nСмотри, че пишешь\nПо какому полю ищем?\n\n");
+            printf("\nСмотри, че пишешь!\n\nПо какому полю ищем?\n\n");
             printf("1 - по имени\n2 - по фамилии\n3 - по отчеству\n4 - по номеру телефона\n5 - по доп. информации\n\n");
-            check_input = scanf("%d", &search_flag);
+            scanf("%d", &search_flag);
             fflush(stdout);
             fflush(stdin);
             
@@ -66,17 +64,19 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
 
         }
 
+        last_search_flag = search_flag;
+
         if (num_of_searched_users == 0){
 
-            printf("------------- Такого пользователя не существует -------------");
+            printf("------------- Такого пользователя не существует -------------\n");
             fflush(stdout);
             fflush(stdin);
             free(search_list);
+            free(last_snode);
             return 0;
 
         }
 
-        last_search_flag = search_flag;
         fflush(stdout);
         fflush(stdin);
 
@@ -108,21 +108,20 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
             leaf_t* leaf_to_del = (*del_node)->leaf;
             node_t* node_to_del = (*del_node)->leaf->node;
 
-            printf("-------------%s-------\n", leaf_to_del);
             delete_leaf(root, leaf_to_del);
-            printf("+");
             del_from_list(list_root, node_to_del);
-            printf("+");
             clean_slist(*search_list);
-            printf("+");
             free(search_list);
-            printf("+");
             free(last_snode);
-            printf("+");
 
             printf("\n\n----------------------Пользователь удален----------------------\n\n");
 
         }
+        
+        clean_slist(*search_list);
+        free(search_list);
+        free(last_snode);
+        
         return 0;
     }
     else if (flag_of_operation == 'A'){

@@ -10,7 +10,7 @@
 // #define MAX_GB_MEM_SIZE 3
 // #define MAX_BYTE_MEM_SIZE ((size_t)(1024 * 1024 * 1024 * MAX_GB_MEM_SIZE))
 
-node_t** create_list (const char* input, int* row_num){
+node_t** create_list (const char* input){
 
     SetConsoleOutputCP(1251);
     SetConsoleCP(1251);
@@ -19,17 +19,17 @@ node_t** create_list (const char* input, int* row_num){
     FILE *in;
     in = fopen(input, "r");
 
-    int current_row_num , split_count;
+    int split_count;
     size_t len;
     char buffer[BUFF_MAX_SIZE];
 
-    current_row_num = 0;
     split_count = 0;
 
     node_t **users = (node_t**)malloc(sizeof(node_t*));
     node_t *last_node = NULL;
     (*users) = NULL;
 
+    
     while (fgets(buffer, BUFF_MAX_SIZE, in) != NULL){
         
         len = strlen(buffer);
@@ -96,12 +96,7 @@ node_t** create_list (const char* input, int* row_num){
                 
         }
 
-        if (split_count > 0){
-
-            ++current_row_num;
-
-        }
-        else{
+        if (split_count == 0){
 
             free(node);
 
@@ -126,17 +121,7 @@ node_t** create_list (const char* input, int* row_num){
     }
 
     fclose(in);
-    //*row_num = current_row_num;
-
-    node_t *curr_node = *users;
-
-    while (curr_node != NULL){
-
-        printf("%s %s %s %s %s\n", curr_node->user.first_name, curr_node->user.second_name, curr_node->user.third_name, curr_node->user.telephone_number, curr_node->user.another_info);
-        curr_node = curr_node->right;
-
-    }
-
+    
     return users;
 }
 
