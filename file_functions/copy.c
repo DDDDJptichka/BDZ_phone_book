@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <windows.h>
+#include "structs.h"
 #define MAX_LEN_OF_FILE 261
+#define KBx64 8 * 1024 * 8
 
 char input_file_name[MAX_LEN_OF_FILE], output_file_name[MAX_LEN_OF_FILE];
 
@@ -25,7 +27,7 @@ int copy(const char *input, const char *output){
     FILE *in, *out;
     in = fopen(input, "r");
 
-    char letter, buff[65536];
+    char letter, buff[KBx64];
     
     if (input == "output_2.txt"){
         
@@ -44,7 +46,7 @@ int copy(const char *input, const char *output){
 
     } 
 
-    while (fgets(buff, 65536, in) != NULL){
+    while (fgets(buff, KBx64, in) != NULL){
 
         fputs(buff, out);
 
@@ -54,4 +56,16 @@ int copy(const char *input, const char *output){
     fclose(out);
 
     return 0;
+}
+
+int pr_to_file(const char *output, leaf_t** root){
+
+    SetConsoleOutputCP(1251);
+    SetConsoleCP(1251);
+    setlocale(LC_ALL, "Russian");
+
+    FILE *out = fopen(output, "w");
+
+    
+
 }
