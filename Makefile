@@ -20,7 +20,7 @@ OBJECTS = $(FUNCTIONS:.c=.o)
 
 $(TARGET): $(OBJECTS)
 	$(CC) $(OBJECTS) -o $(TARGET)
-	@echo "РЎР±РѕСЂРєР° $(TARGET) Р·Р°РІРµСЂС€РµРЅР°"
+	@echo "сборка $(TARGET) завершена"
 
 main.o: main.c
 	$(CC) $(CFLAGS) -c main.c -o main.o
@@ -42,16 +42,14 @@ run: $(TARGET)
 	./$(TARGET)
 
 clean: 
-	rm -f $(OBJECTS) &(TARGET) a.exe main.o
-	@echo "Очистка завершена"
+	rm -f $(OBJECTS) $(TARGET)
+	@echo Очистка завершена
 
 rebuild:
 	clean $(TARGET)
 
 info:
-	@echo "::::::::::::::::::::Информация::::::::::::::::::::"
-	@echo "Файл запуска ------- $(TARGET)"
-	@echo "Функции:"
-	@echo "$(FUNCTIONS)" | tr ' ' '\n'
-	@echo "Объектники:"
-	@echo "$(FUNCTIONS)" | tr ' ' '\n'
+	@echo ::::::::::::::::::::Информация::::::::::::::::::::
+	@echo Файл запуска ------- $(TARGET)
+	@echo Функции: $(notdir $(wildcard command_files/*.c) $(wildcard d_linked_list/*.c) $(wildcard file_functions/*.c) $(wildcard tree_functions/*.c))
+	@echo Объектники: $(notdir $(wildcard command_files/*.o) $(wildcard d_linked_list/*.o) $(wildcard file_functions/*.o) $(wildcard tree_functions/*.o))
