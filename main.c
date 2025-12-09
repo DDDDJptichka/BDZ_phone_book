@@ -3,11 +3,11 @@
 #include <string.h>
 #include <locale.h>
 #include <windows.h>
-#include "copy.h"
+#include "init_files.h"
 #include "add_new_person.h"
 #include "make_list.h"
 #include "make_tree.h"
-#include "tree_operations.h"
+#include "do_operations.h"
 #define PRINT_FLAG 6
 #define FIRSTNAME 1
 #define EXIT -1
@@ -28,15 +28,29 @@ int main(){
     initialize_in_out_files();
     users = create_list(input_file_name);  
     root = convert_list_to_tree(users, FIRSTNAME);
-    operation_code = select_tree_sort(root, users);
+    operation_code = do_operation(root, users);
 
     while (operation_code != EXIT){
 
-        operation_code = select_tree_sort(root, users);
+        operation_code = do_operation(root, users);
 
     }
 
-    pr(convert_list_to_tree(users, PRINT_FLAG));
+    print_tree(convert_list_to_tree(users, PRINT_FLAG));
     
+    if (*users != NULL){
+
+        clean_list(*users);
+        free(users);
+
+    }
+
+    if (*root != NULL){
+
+        clean_tree(*root);
+        free(root);
+
+    }
+
     return 0;
 }

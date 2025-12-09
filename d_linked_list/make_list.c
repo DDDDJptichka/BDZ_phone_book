@@ -128,6 +128,16 @@ node_t* add_to_list(node_t** root, user_t new_user){
 
     node_t* new_node = (node_t*)malloc(sizeof(node_t));
 
+    if (*root == NULL){
+
+        *root = new_node;
+        new_node->left = NULL;
+        new_node->right = NULL;
+        new_node->user = new_user;
+        return new_node;
+
+    }
+
     if ((*root)->right != NULL){
 
         new_node->right = (*root)->right;
@@ -186,5 +196,17 @@ void clean_slist(snode_t* snode){
     }
 
     free(snode);
+
+}
+
+void clean_list(node_t* node){
+
+    if (node->right != NULL){
+
+        clean_list(node->right);
+
+    }
+
+    free(node);
 
 }

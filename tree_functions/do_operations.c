@@ -9,7 +9,7 @@
 
 int last_search_flag = 0;
 
-int select_tree_sort(leaf_t** root, node_t** list_root){
+int do_operation(leaf_t** root, node_t** list_root){
     
     SetConsoleOutputCP(1251);
     SetConsoleCP(1251);
@@ -24,6 +24,15 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
 
     if ((flag_of_operation == 'S') || (flag_of_operation == 'D')){
         
+        if (*root == NULL){
+
+            printf("\n\nИскать/удалять некого, входных данных нет :(\n\n");
+            fflush(stdout);
+            fflush(stdin);
+            return 0;
+
+        }   
+
         snode_t** search_list = (snode_t**)malloc(sizeof(snode_t*));
         snode_t** last_snode = (snode_t**)malloc(sizeof(snode_t*));
         *search_list = NULL;
@@ -80,7 +89,7 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
         fflush(stdout);
         fflush(stdin);
 
-        if (flag_of_operation == 'D'){
+        if ((flag_of_operation == 'D') && (root != NULL)){
 
             printf("\nВведите номер пользователя, которого хотите удалить\n\n");
             unsigned int input_check, num_of_user;
@@ -127,8 +136,15 @@ int select_tree_sort(leaf_t** root, node_t** list_root){
     else if (flag_of_operation == 'A'){
 
         user_t new_user = add_new_person();
-
         node_t* new_node = add_to_list(list_root, new_user);
+
+        if (root == NULL){
+
+            add_leaf(NULL, new_node);
+            return 1;
+
+        }
+
         balancing_of_tree(root, add_leaf(root, new_node));
         printf("\n----------------------Пользователь добавлен----------------------\n");
 

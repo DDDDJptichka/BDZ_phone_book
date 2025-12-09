@@ -10,8 +10,6 @@ user_t add_new_person(){
     SetConsoleCP(1251);
     setlocale(LC_ALL, "Russian");
 
-    FILE *out = fopen("output_2.txt", "w");
-
     user_t user;
 
     printf("\n¬ведите »ћя нового человека:    <--------   ");
@@ -32,10 +30,6 @@ user_t add_new_person(){
     fgets(user.another_info, ANOTHER_INFO_MAX_SIZE, stdin);
 
     user.another_info[strlen(user.another_info) - 1] = '\0';
-
-    fprintf(out, "\n%s %s %s %s %s", user.first_name, user.second_name, user.third_name, user.telephone_number, user.another_info);
-
-    fclose(out);
 
     return user;
 }

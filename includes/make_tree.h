@@ -24,4 +24,4 @@ void delete_leaf(leaf_t **root, leaf_t *leaf);
 
 void clean_tree(leaf_t *leaf);
 
-int pr(leaf_t **root);
+int print_tree(leaf_t **root);

@@ -269,6 +269,12 @@ void balancing_of_tree(leaf_t **root, leaf_t *leaf){
 
 leaf_t** convert_list_to_tree(node_t **node, unsigned short flag){
 
+    if (node == NULL){
+
+        return NULL;
+
+    }
+
     node_t *curr_node = *node;
     leaf_t **root = (leaf_t**)malloc(sizeof(leaf_t*));
 
@@ -461,7 +467,7 @@ void delete_leaf(leaf_t **root, leaf_t *leaf){
 
         if (leaf->parent == NULL){
 
-            *root == NULL;
+            *root = NULL;
             free(leaf);
             return;
 
@@ -570,15 +576,15 @@ void clean_tree(leaf_t *leaf){
 
 }
 
-int pr(leaf_t **root){
+int print_tree(leaf_t **root){
 
     leaf_t *curr = *root;
 
     if (curr != NULL){
 
-        pr(&(curr->left));
+        print_tree(&(curr->left));
         printf("%s %s %s %s %s\n", curr->user.first_name, curr->user.second_name, curr->user.third_name, curr->user.telephone_number, curr->user.another_info);
-        pr(&(curr->right));
+        print_tree(&(curr->right));
 
     }
 
