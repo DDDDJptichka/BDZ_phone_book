@@ -576,15 +576,16 @@ void clean_tree(leaf_t *leaf){
 
 }
 
-int print_tree(leaf_t **root){
+int print_tree(leaf_t **root, FILE *output){
 
+    
     leaf_t *curr = *root;
 
     if (curr != NULL){
 
-        print_tree(&(curr->left));
-        printf("%s %s %s %s %s\n", curr->user.first_name, curr->user.second_name, curr->user.third_name, curr->user.telephone_number, curr->user.another_info);
-        print_tree(&(curr->right));
+        print_tree(&(curr->left), output);
+        fprintf(output, "%s %s %s %s %s\n", curr->user.first_name, curr->user.second_name, curr->user.third_name, curr->user.telephone_number, curr->user.another_info);
+        print_tree(&(curr->right), output);
 
     }
 

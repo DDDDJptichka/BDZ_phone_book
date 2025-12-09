@@ -36,7 +36,11 @@ int main(){
 
     }
 
-    print_tree(convert_list_to_tree(users, PRINT_FLAG));
+    FILE *out;
+
+    out = fopen(output_file_name, "w");
+    print_tree(convert_list_to_tree(users, PRINT_FLAG), out);
+    fclose(out);
     
     if (*users != NULL){
 
