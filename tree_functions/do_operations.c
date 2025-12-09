@@ -37,7 +37,7 @@ int do_operation(leaf_t** root, node_t** list_root){
         snode_t** last_snode = (snode_t**)malloc(sizeof(snode_t*));
         *search_list = NULL;
         *last_snode = NULL;
-        int num_of_searched_users = 0;
+        unsigned int num_of_searched_users = 0;
 
         printf("\nПо какому полю ищем?\n\n");
         printf("1 - по имени\n2 - по фамилии\n3 - по отчеству\n4 - по номеру телефона\n5 - по доп. информации\n\n");

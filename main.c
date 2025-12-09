@@ -41,7 +41,7 @@ int main(){
     out = fopen(output_file_name, "w");
     print_tree(convert_list_to_tree(users, PRINT_FLAG), out);
     fclose(out);
-    
+
     if (*users != NULL){
 
         clean_list(*users);
@@ -55,6 +55,8 @@ int main(){
         free(root);
 
     }
+
+    printf("1\t2");
 
     return 0;
 }
