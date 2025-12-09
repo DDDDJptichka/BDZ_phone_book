@@ -20,7 +20,7 @@ OBJECTS = $(FUNCTIONS:.c=.o)
 
 $(TARGET): $(OBJECTS)
 	$(CC) $(OBJECTS) -o $(TARGET)
-	@echo "сборка $(TARGET) завершена"
+	@echo сборка $(TARGET) завершена
 
 main.o: main.c
 	$(CC) $(CFLAGS) -c main.c -o main.o
@@ -42,11 +42,11 @@ run: $(TARGET)
 	./$(TARGET)
 
 clean: 
-	rm -f $(OBJECTS) $(TARGET)
+	del /Q $(subst /,\,$(OBJECTS)) $(TARGET)
 	@echo Очистка завершена
 
-rebuild:
-	clean $(TARGET)
+rebuild:	clean $(TARGET)
+	@echo Пересборка завершена
 
 info:
 	@echo ::::::::::::::::::::Информация::::::::::::::::::::
