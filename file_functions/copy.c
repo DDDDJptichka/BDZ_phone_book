@@ -16,56 +16,47 @@ void initialize_in_out_files(){
     printf("\n¬ведите название файла,\nв котором (который хотите создать) хотите увидеть редактированный результат базы данных\nввoд в формате:  название файла.расширение   <--------  ");
     scanf("%260s", output_file_name);
 
+    fflush(stdin);
+    fflush(stdout);
+
 }
 
-int copy(const char *input, const char *output){
+// int copy(const char *input, const char *output){
 
-    SetConsoleOutputCP(1251);
-    SetConsoleCP(1251);
-    setlocale(LC_ALL, "Russian");
+//     SetConsoleOutputCP(1251);
+//     SetConsoleCP(1251);
+//     setlocale(LC_ALL, "Russian");
 
-    FILE *in, *out;
-    in = fopen(input, "r");
+//     FILE *in, *out;
+//     in = fopen(input, "r");
 
-    char letter, buff[KBx64];
+//     char letter, buff[KBx64];
     
-    if (input == "output_2.txt"){
+//     if (input == "output_2.txt"){
         
-        out = fopen(output, "a");
+//         out = fopen(output, "a");
 
-    }
-    else{
+//     }
+//     else{
 
-        out = fopen(output, "w");
+//         out = fopen(output, "w");
 
-    }
+//     }
 
-    if (in == NULL){
+//     if (in == NULL){
 
-        return -1;
+//         return -1;
 
-    } 
+//     } 
 
-    while (fgets(buff, KBx64, in) != NULL){
+//     while (fgets(buff, KBx64, in) != NULL){
 
-        fputs(buff, out);
+//         fputs(buff, out);
 
-    }
+//     }
 
-    fclose(in);
-    fclose(out);
+//     fclose(in);
+//     fclose(out);
 
-    return 0;
-}
-
-int pr_to_file(const char *output, leaf_t** root){
-
-    SetConsoleOutputCP(1251);
-    SetConsoleCP(1251);
-    setlocale(LC_ALL, "Russian");
-
-    FILE *out = fopen(output, "w");
-
-    
-
-}
+//     return 0;
+// }

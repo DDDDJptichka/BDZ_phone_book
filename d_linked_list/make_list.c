@@ -29,7 +29,6 @@ node_t** create_list (const char* input){
     node_t *last_node = NULL;
     (*users) = NULL;
 
-    
     while (fgets(buffer, BUFF_MAX_SIZE, in) != NULL){
         
         len = strlen(buffer);

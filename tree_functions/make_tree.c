@@ -493,22 +493,18 @@ void delete_leaf(leaf_t **root, leaf_t *leaf){
     }
     else if (leaf->left == NULL){
 
-        printf("+");
         new_leaf = leaf->right;
-        printf("%d", new_leaf == NULL);
         switch_local_roots(root, leaf, leaf->right);
 
     }
     else if (leaf->right == NULL){
 
-        printf("/");
         new_leaf = leaf->left;
         switch_local_roots(root, leaf, leaf->left);
 
     }
     else{
 
-        printf("=");
         curr = find_min_leaf(leaf->right);
         curr_leaf_color = curr->color;
         new_leaf = curr->right;
@@ -580,8 +576,8 @@ int pr(leaf_t **root){
 
     if (curr != NULL){
 
-        printf("%s %s %s %s %s\n", curr->user.first_name, curr->user.second_name, curr->user.third_name, curr->user.telephone_number, curr->user.another_info);
         pr(&(curr->left));
+        printf("%s %s %s %s %s\n", curr->user.first_name, curr->user.second_name, curr->user.third_name, curr->user.telephone_number, curr->user.another_info);
         pr(&(curr->right));
 
     }

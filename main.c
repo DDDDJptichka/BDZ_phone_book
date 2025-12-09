@@ -8,6 +8,9 @@
 #include "make_list.h"
 #include "make_tree.h"
 #include "tree_operations.h"
+#define PRINT_FLAG 6
+#define FIRSTNAME 1
+#define EXIT -1
 
 extern char input_file_name[];
 extern char output_file_name[];
@@ -20,24 +23,20 @@ int main(){
     
     node_t **users;
     leaf_t **root;
+    int operation_code;
     
     initialize_in_out_files();
-    //copy(input_file_name, output_file_name);
-    users = create_list(input_file_name);
-    
-    root = convert_list_to_tree(users, 1);
-    fflush(stdout);
-    fflush(stdin);
+    users = create_list(input_file_name);  
+    root = convert_list_to_tree(users, FIRSTNAME);
+    operation_code = select_tree_sort(root, users);
 
-    int fl = select_tree_sort(root, users);
+    while (operation_code != EXIT){
 
-    while (fl != -1){
-
-        fl = select_tree_sort(root, users);
+        operation_code = select_tree_sort(root, users);
 
     }
 
-    convert_list_to_tree(users, 6);    
+    pr(convert_list_to_tree(users, PRINT_FLAG));
     
     return 0;
 }
