@@ -26,7 +26,7 @@ int main(){
     int operation_code;
     
     initialize_in_out_files();
-    users = create_list(input_file_name);  
+    users = create_list(input_file_name); 
     root = convert_list_to_tree(users, FIRSTNAME);
     operation_code = do_operation(root, users);
 
@@ -56,7 +56,7 @@ int main(){
 
     }
 
-    printf("1\t2");
+    fclose(out);
 
     return 0;
 }

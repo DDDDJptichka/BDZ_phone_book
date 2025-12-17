@@ -6,6 +6,7 @@
 #include "make_tree.h"
 #include "make_list.h"
 #include "search.h"
+#include <time.h>
 
 int last_search_flag = 0;
 
@@ -58,6 +59,8 @@ int do_operation(leaf_t** root, node_t** list_root){
         scanf("%499s", buffer);
         printf("\n");
 
+        clock_t start_search = clock();
+
         if (last_search_flag == search_flag){
 
             num_of_searched_users = search_user(*root, search_list, last_snode, buffer, search_flag);
@@ -85,6 +88,9 @@ int do_operation(leaf_t** root, node_t** list_root){
             return 0;
 
         }
+
+        clock_t end_search = clock();
+        double search_time = (double)(end_search - start_search) / CLOCKS_PER_SEC;
 
         fflush(stdout);
         fflush(stdin);
@@ -116,6 +122,7 @@ int do_operation(leaf_t** root, node_t** list_root){
 
             leaf_t* leaf_to_del = (*del_node)->leaf;
             node_t* node_to_del = (*del_node)->leaf->node;
+            clock_t start = clock();
 
             delete_leaf(root, leaf_to_del);
             del_from_list(list_root, node_to_del);
@@ -123,7 +130,10 @@ int do_operation(leaf_t** root, node_t** list_root){
             free(search_list);
             free(last_snode);
 
-            printf("\n\n----------------------Пользователь удален----------------------\n\n");
+            clock_t end = clock();
+            double time = search_time + (double)(end - start) / CLOCKS_PER_SEC;
+
+            printf("\n\n----------------------Пользователь удален за %.6f сек----------------------\n\n", time);
 
         }
         
